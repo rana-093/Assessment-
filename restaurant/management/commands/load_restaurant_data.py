@@ -1,4 +1,5 @@
 import json
+import sys
 from django.core.management.base import BaseCommand
 from restaurant.models import Restaurant, MenuItem, OpeningHour
 import re
@@ -32,7 +33,7 @@ def parse_opening_hours_str(opening_hours_str: str):
         time_part = []
 
         for word in words:
-            if any(char.isdigit() for char in word):  # Start collecting time when we see a number
+            if any(char.isdigit() for char in word):
                 time_part = words[words.index(word):]
                 break
             else:
@@ -58,11 +59,17 @@ def parse_opening_hours_str(opening_hours_str: str):
             opening_time = parse_time(opening_time_str)
             closing_time = parse_time(closing_time_str)
 
-            if closing_time < opening_time:
-                closing_time = (datetime.strptime(closing_time, "%H:%M") + timedelta(days=1)).strftime("%H:%M")
-
-            for day in expanded_days:
-                opening_hours_data.append((day, opening_time, closing_time))
+            if closing_time < opening_time: # midnight crossing case, break it into 2 intervals
+                interval_1 = (opening_time, datetime.strptime("23:59", "%H:%M").time())
+                interval_2 = (datetime.strptime("00:00", "%H:%M").time(), closing_time)
+                for day in expanded_days:
+                    index = DAYS_OF_WEEK.index(day)
+                    next_day = DAYS_OF_WEEK[(index + 1) % len(DAYS_OF_WEEK)]
+                    opening_hours_data.append((day, interval_1[0], interval_1[1]))
+                    opening_hours_data.append((next_day, interval_2[0], interval_2[1]))
+            else :
+                for day in expanded_days:
+                    opening_hours_data.append((day, opening_time, closing_time))
 
     return opening_hours_data
 
@@ -71,6 +78,8 @@ class Command(BaseCommand):
     help = "Load the restaurant JSON datas into the database."
 
     def handle(self, *args, **kwargs):
+        self.stdout.write("Loading Restaurants data...\n", ending="")
+        sys.stdout.flush()
         with open('restaurant_with_menu.json', 'r') as file:
             restaurant_data = json.load(file)
         for data in restaurant_data:
