@@ -10,7 +10,7 @@ from restaurant.models import Restaurant
 
 class SearchView(APIView):
     def get(self, request):
-        search = request.GET.get('search')
+        search = request.GET.get('query')
         if not search:
             raise ValidationError('Please enter a search term')
 
