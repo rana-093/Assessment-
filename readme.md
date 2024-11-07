@@ -102,10 +102,10 @@ Output is sorted by `relevance score` here. If the query matches exactly, releva
 
 ```json
     {
-    "restaurant_id": integer, 
-    "customer_id": integer,
-    "dish_id": integer,
-    "quantity": integer
+    "restaurant_id": "integer", 
+    "customer_id": "integer",
+    "dish_id": "integer",
+    "quantity": "integer"
 }
 ```
 
