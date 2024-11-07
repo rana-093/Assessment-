@@ -133,3 +133,5 @@ During a buy, race condition has been handled using `Database Lock`. And it has 
 }
 ```
 
+#### Added Unit tests for search API. Plz see under the `customer/tests` folder! 
+

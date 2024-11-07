@@ -12,7 +12,7 @@ class SearchView(APIView):
     def get(self, request):
         search = request.GET.get('query')
         if not search:
-            raise ValidationError('Please enter a search term')
+            return Response({'detail': 'Please enter a search term'}, status=status.HTTP_400_BAD_REQUEST)
 
         customer_results = Customer.objects.annotate(
             type=Value('customer', output_field=CharField()),
