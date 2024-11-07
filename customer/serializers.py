@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from customer.models import Customer
+from customer.models import Customer, PurchaseHistory
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -11,4 +11,5 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class PurchaseHistorySerializer(serializers.ModelSerializer):
     class Meta:
+        model = PurchaseHistory
         fields = '__all__'

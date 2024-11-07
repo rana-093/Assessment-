@@ -1,7 +1,6 @@
 from django.urls import path
-from restaurant.views import RestaurantViewSet
+from customer.views import SearchView
 
 urlpatterns = [
-    path('v1/login/', LoginView.as_view()),
-
+    path('v1/search/', SearchView.as_view(), name='search'),
 ]

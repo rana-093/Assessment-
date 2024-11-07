@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from food_delivery.local import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME
+from food_delivery.local import DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -83,7 +83,7 @@ DATABASES = {
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
         'HOST': DB_HOST,
-        'PORT': 5432,
+        'PORT': DB_PORT,
     }
 }
 
