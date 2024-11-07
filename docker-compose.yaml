@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: db
+    environment:
+      POSTGRES_DB: food_delivery
+      POSTGRES_USER: masud
+      POSTGRES_PASSWORD: asdF1234
+    ports:
+      - "5432:5432"
+    networks:
+      - food_delivery_network
+
+  backend:
+    build:
+      context: .
+    container_name: backend
+    volumes:
+      - .:/app
+    restart: on-failure
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - food_delivery_network
+    command: bash -c "python manage.py migrate && python manage.py load_restaurant_data && python manage.py load_customer_data && python manage.py runserver 0.0.0.0:8000"
+
+networks:
+  food_delivery_network:
+    driver: bridge
