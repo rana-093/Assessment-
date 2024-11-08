@@ -54,7 +54,7 @@ Base URL: **http://localhost:8000**
 | `dish_count_less_than` | integer | Optional. Filters restaurants with a dish count less than the specified value.   |
 
 `Either dish_count_more_than or dish_count_less_than has to be in query params here`
-#### Example Request: `http://localhost:8000/api/v1/restaurants/by-dish-count?limit=100&dish_count_more_than=2&dish_count_less_than=4`
+#### Example Request: `http://localhost:8000/api/v1/restaurants/by-dish-count?limit=100&dish_count_more_than=2`
 #### Example response:
 ```json
 [
