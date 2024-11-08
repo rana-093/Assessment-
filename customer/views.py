@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Case, When, IntegerField, Value, F, CharField
 from django.db.models.functions import Lower
-from customer.models import Customer
+from customer.models import Customer, PurchaseHistory
+from customer.serializers import CustomerSerializer, PurchaseHistorySerializer
 from restaurant.models import Restaurant
 
 class SearchView(APIView):
@@ -120,3 +121,17 @@ class SearchView(APIView):
                              F('contains_match'))
         ).values('name', 'type', 'relevance_score')
         return results
+
+class CustomerView(APIView):
+
+    def get(self, request):
+        customers = Customer.objects.all()
+        return Response(CustomerSerializer(customers, many=True).data)
+
+
+class CustomerPurchaseView(APIView):
+
+    def get(self, request, customer_id):
+        customer = get_object_or_404(Customer, id=customer_id)
+        customer_histories = PurchaseHistory.objects.filter(customer=customer)
+        return Response(PurchaseHistorySerializer(customer_histories, many=True).data)

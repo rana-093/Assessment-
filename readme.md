@@ -65,6 +65,56 @@ Base URL: **http://localhost:8000**
 ```
 
 
+## Get All Customers
+
+**GET** `/api/v1/customers`
+
+#### Example Request: `http://localhost:8000/api/v1/customers`
+#### Example response:
+```json
+[
+    {
+        "id": 2001,
+        "name": "Edith Johnson",
+        "customer_id": 0,
+        "cash_balance": "700.7000"
+    },
+    {
+        "id": 2002,
+        "name": "Edward Gonzalez",
+        "customer_id": 1,
+        "cash_balance": "237.6100"
+    }
+]
+```
+
+## Get purchase history for a customer
+
+**GET** `/api/v1/customers/<int:customer_id>/purchase-histories`
+
+#### Example Request: `http://localhost:8000/api/v1/customers/2001/purchase-histories`
+#### Example response:
+```json
+[
+    {
+        "id": 39696,
+        "transaction_amount": "13.1800",
+        "transaction_date": "2020-02-10T04:09:00",
+        "customer": 2001,
+        "menu": 58698,
+        "restaurant": 8330
+    },
+    {
+        "id": 39697,
+        "transaction_amount": "12.8100",
+        "transaction_date": "2020-04-03T13:56:00",
+        "customer": 2001,
+        "menu": 58315,
+        "restaurant": 8025
+    }
+]
+```
+
 
 ## Get open restaurants
 
