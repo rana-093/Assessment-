@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -110,3 +110,15 @@ class DishBuyView(APIView):
                                                                transaction_date=datetime.now())
 
         return Response(PurchaseHistorySerializer(purchased_transaction).data, status=status.HTTP_201_CREATED)
+
+class RestaurantView(APIView):
+    def get(self, request):
+        restaurants = Restaurant.objects.all()
+        return Response(data=RestaurantSerializer(restaurants, many=True).data)
+
+
+class RestaurantDishView(APIView):
+    def get(self, request, restaurant_id):
+        restaurant = get_object_or_404(Restaurant, id=int(restaurant_id))
+        menus = MenuItem.objects.filter(restaurant=restaurant)
+        return Response(data=MenuItemSerializer(menus, many=True).data, status=status.HTTP_200_OK)

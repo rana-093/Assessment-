@@ -1,6 +1,8 @@
 Run `docker-compose up --build` or `docker compose up --build` depending on the `docker compose` version, for quick deployment. 
 It does the Customer and restaurant migration from the JSON to Database! So give it some time after using this command! 
 
+#### `You can update the DB configurations in local.py file under the food_delivery app. For now, it is configured to run as docker-compose config`
+
 But if you wanna run this individually, here is the approach:
 
 > python3 -m venv venv <br>
@@ -16,6 +18,53 @@ But if you wanna run this individually, here is the approach:
 #### load_customer_data script is: `customer/management/commands/load_customer_data.py`
 
 Base URL: **http://localhost:8000**
+
+
+## Get All restaurants
+
+**GET** `/api/v1/restaurants`
+
+#### Example Request: `http://localhost:8000/api/v1/restaurants`
+#### Example response:
+```json
+[
+    {
+        "id": 6772,
+        "name": "100% Mexicano Restaurant",
+        "cash_balance": "1320.1900"
+    },
+    {
+        "id": 6773,
+        "name": "100% de Agave",
+        "cash_balance": "4629.9100"
+    }
+]
+```
+
+## Get menus under a restaurant
+
+**GET** `/api/v1/restaurants/<int:restaurant_id>/menus`
+
+#### Example Request: `http://localhost:8000/api/v1/restaurants/6771/menus`
+#### Example response:
+```json
+[
+    {
+        "id": 58023,
+        "name": "Sweetbreads",
+        "price": "13.5700",
+        "restaurant": 6771
+    },
+    {
+        "id": 58024,
+        "name": "Old pepper bourbon",
+        "price": "10.1500",
+        "restaurant": 6771
+    }
+]
+```
+
+
 
 ## Get open restaurants
 
@@ -119,8 +168,11 @@ Output is sorted by `relevance score` here. If the query matches exactly, releva
     "quantity": 2
 }
 ```
-During a buy, race condition has been handled using `Database Lock`. And it has been made sure that whole operation is atomic. Like Adding amount to Restaurant cash balance and deducting amount from customer wallet
-
+During a buy, race condition has been handled using `Database Lock`. 
+And it has been made sure that whole operation is `atomic`. Like Adding amount to Restaurant cash balance and deducting amount from customer wallet
+Moreover the `chosen dish should be present in that restaurant`. 
+Otherwise it will give some validation errors. 
+You can check from the `First 2  (Restaurants & Menus by restaurant)` for checking this endpoint. As the Database port is exposed to 5432 port. You can easily connect to this DB using tools like `PgAdmin / DataGrip / Dbeaver` etc.
 #### Example Response:
 ```json
 {
