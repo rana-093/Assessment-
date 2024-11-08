@@ -1,7 +1,7 @@
 Run `docker-compose up --build` or `docker compose up --build` depending on the `docker compose` version, for quick deployment. 
 It does the Customer and restaurant migration from the JSON to Database! So give it some time after using this command! 
 
-#### `You can update the DB configurations in local.py file under the food_delivery app. For now, it is configured to run as docker-compose config`. Ideally it should be on the .gitignore file and this file should not be shared in the Github. But I kept it for the ease of yours to run it in one go without any manual efforts from your side. Thanks! 
+#### `You can update the DB configurations in local.py file under the food_delivery app. For now, it is configured to run as docker-compose config. Ideally it should be on the .gitignore file and this file should not be shared in the Github. But I kept it for the ease of yours to run it in one go without any manual efforts from your side. Thanks!` 
 
 But if you wanna run this individually, here is the approach:
 
